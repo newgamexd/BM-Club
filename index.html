@@ -1,19 +1,33 @@
 <!DOCTYPE html>
 <html>
-<body style="margin:0">
+<head>
+<meta charset="UTF-8">
 
-<div id="members"
-style="
-background:#1f1f1f;
-color:white;
-padding:12px;
-font-size:22px;
-font-family:Arial;
-border-radius:12px;
-display:inline-block;
-">
-👥 Đang tải...
-</div>
+<style>
+html,body{
+    margin:0;
+    padding:0;
+    background:transparent;
+    overflow:hidden;
+}
+
+#box{
+    display:inline-block;
+    padding:6px 10px;
+    background:#1f1f1f;
+    color:white;
+    border-radius:10px;
+    font-family:Arial;
+    font-size:15px;
+    font-weight:bold;
+    white-space:nowrap;
+}
+</style>
+</head>
+
+<body>
+
+<div id="box">👥 Loading...</div>
 
 <script>
 async function load() {
@@ -24,8 +38,42 @@ async function load() {
 
     const d = await r.json();
 
-    document.getElementById("members").innerHTML =
-        "👥 Thành viên: " + d.members_count;
+    const members = d.members_count;
+
+    // Lấy số hôm qua
+    let yesterday = localStorage.getItem("yesterday_members");
+    let lastDate = localStorage.getItem("saved_date");
+
+    // Ngày hiện tại
+    const today = new Date().toDateString();
+
+    // Nếu sang ngày mới thì lưu số cũ
+    if(lastDate !== today){
+
+        localStorage.setItem("yesterday_members", members);
+        localStorage.setItem("saved_date", today);
+
+        yesterday = members;
+    }
+
+    yesterday = Number(yesterday || members);
+
+    const diff = members - yesterday;
+
+    let text = "";
+
+    if(diff > 0){
+        text = `📈 +${diff}`;
+    }
+    else if(diff < 0){
+        text = `📉 ${diff}`;
+    }
+    else{
+        text = `➖ 0`;
+    }
+
+    document.getElementById("box").innerHTML =
+        `👥 ${members} | ${text}`;
 }
 
 load();
@@ -34,4 +82,4 @@ setInterval(load,15000);
 </script>
 
 </body>
-</html>
+</html></html>
