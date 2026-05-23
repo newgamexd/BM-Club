@@ -51,6 +51,9 @@ h2{color:#00ffcc}
 const GOAL = 500;
 const API = "https://api.chess.com/pub/club/blunder-master-vn/members";
 
+// 🔥 lưu cache để tránh nhảy số ảo
+let lastCount = 0;
+
 function calcPercent(count){
     let percent = (count / GOAL) * 100;
     return Math.max(0, Math.min(100, percent));
@@ -64,8 +67,17 @@ async function load(){
         const res = await fetch(API);
         const data = await res.json();
 
+        // ✔ CHỈ DÙNG all_time (ổn định nhất trong API này)
         const list = data.all_time || [];
-        const count = list.length;
+
+        let count = list.length;
+
+        // 🔥 chống nhảy số bất thường
+        if(Math.abs(count - lastCount) > 100){
+            count = lastCount; // bỏ giá trị lỗi
+        } else {
+            lastCount = count;
+        }
 
         const percent = calcPercent(count);
 
