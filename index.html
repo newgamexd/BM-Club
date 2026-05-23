@@ -2,7 +2,6 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>BM Club Progress</title>
 
 <style>
 body{
@@ -23,18 +22,9 @@ body{
     border-radius:15px;
 }
 
-#members{
-    font-size:20px;
-    margin-bottom:10px;
-}
-
-#goal{
-    margin-bottom:10px;
-}
-
 #barbg{
     width:100%;
-    height:22px;
+    height:20px;
     background:#333;
     border-radius:999px;
     overflow:hidden;
@@ -45,11 +35,6 @@ body{
     width:0%;
     background:limegreen;
 }
-
-#percent{
-    margin-top:10px;
-    font-size:16px;
-}
 </style>
 </head>
 
@@ -57,21 +42,14 @@ body{
 
 <div id="box">
 
-<div id="members">
-Loading...
-</div>
-
-<div id="goal">
-Goal: ...
-</div>
+<div id="members">Loading...</div>
+<div>Goal: <span id="goal">...</span></div>
 
 <div id="barbg">
     <div id="bar"></div>
 </div>
 
-<div id="percent">
-0 / 100
-</div>
+<div id="percent">0%</div>
 
 </div>
 
@@ -83,8 +61,9 @@ async function updateProgress(){
 
     try{
 
+        // 🔥 FIX CORS HERE
         const r = await fetch(
-            "https://api.chess.com/pub/club/blunder-master-vn"
+            "https://api.allorigins.win/raw?url=https://api.chess.com/pub/club/blunder-master-vn"
         );
 
         const data = await r.json();
@@ -95,47 +74,29 @@ async function updateProgress(){
             "👥 " + members + " members";
 
         let goal = goals[goals.length - 1];
-        let previous = 0;
+        let prev = 0;
 
-        for(let i = 0; i < goals.length; i++){
-
+        for(let i=0;i<goals.length;i++){
             if(members < goals[i]){
-
                 goal = goals[i];
-
-                if(i > 0){
-                    previous = goals[i - 1];
-                }
-
+                prev = i>0 ? goals[i-1] : 0;
                 break;
             }
         }
 
-        const currentProgress = members - previous;
-        const totalNeeded = goal - previous;
+        const percent = ((members - prev)/(goal - prev))*100;
 
-        const percent =
-            (currentProgress / totalNeeded) * 100;
-
-        document.getElementById("goal").innerHTML =
-            "Goal: " + goal;
-
-        document.getElementById("bar").style.width =
-            percent + "%";
-
-        document.getElementById("percent").innerHTML =
-            currentProgress + " / " + totalNeeded;
+        document.getElementById("goal").innerText = goal;
+        document.getElementById("bar").style.width = percent + "%";
+        document.getElementById("percent").innerText = Math.floor(percent) + "%";
 
     }catch(e){
-
-        document.getElementById("members").innerHTML =
-            "Error";
-
+        document.getElementById("members").innerText = "Error loading API";
+        console.log(e);
     }
 }
 
 updateProgress();
-
 setInterval(updateProgress,15000);
 
 </script>
