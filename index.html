@@ -2,7 +2,7 @@
 <html lang="vi">
 <head>
 <meta charset="UTF-8">
-<title>CLB Progress</title>
+<title>CLB Progress Fix</title>
 
 <style>
 body{
@@ -25,7 +25,7 @@ body{
     height:100%;
     width:0%;
     background:linear-gradient(90deg,#00ffcc,#0066ff);
-    transition:0.5s;
+    transition:0.4s;
 }
 
 #members{
@@ -47,58 +47,75 @@ body{
 
 <div id="text">Đang tải...</div>
 
-<h3>♟ 3 thành viên mới nhất</h3>
+<h3>♟ Thành viên mới nhất</h3>
 <div id="members"></div>
 
 <script>
 
 const goals = [100,200,500,1000,1500,2000,2500];
-
 const API = "https://api.chess.com/pub/club/blunder-master-vn/members";
 
-async function load(){
+function getProgress(count){
+    // nếu chưa có data
+    if(!count || count < 1){
+        return {percent:0, next:goals[0]};
+    }
 
+    let prev = 0;
+    let next = goals[goals.length - 1];
+
+    for(let g of goals){
+        if(count < g){
+            next = g;
+            break;
+        }
+        prev = g;
+    }
+
+    let range = next - prev;
+
+    // 🔥 FIX QUAN TRỌNG: tránh chia 0
+    if(range <= 0) range = 1;
+
+    let percent = ((count - prev) / range) * 100;
+
+    return {
+        percent: Math.max(0, Math.min(100, percent)),
+        next
+    };
+}
+
+async function load(){
     try{
+        document.getElementById("text").innerHTML = "⏳ Đang tải...";
+
         const res = await fetch(API);
         const data = await res.json();
 
         const list = data.all_time || [];
-        const count = list.length;
+        const count = list.length || 0;
 
-        // tìm mốc gần nhất
-        let prev = 0;
-        let next = goals[goals.length - 1];
+        const p = getProgress(count);
 
-        for(let g of goals){
-            if(count < g){
-                next = g;
-                break;
-            }
-            prev = g;
-        }
-
-        let percent = ((count - prev) / (next - prev)) * 100;
-        percent = Math.max(0, Math.min(100, percent));
-
-        // update UI
-        document.getElementById("bar").style.width = percent + "%";
+        document.getElementById("bar").style.width = p.percent + "%";
         document.getElementById("text").innerHTML =
-            `👥 ${count} thành viên (mục tiêu: ${next})`;
+            `👥 ${count} thành viên → mục tiêu: ${p.next}`;
 
         const latest = list.slice(-3).reverse();
 
         document.getElementById("members").innerHTML =
-            latest.map(m => "• " + m.username).join("<br>");
+            latest.length
+            ? latest.map(m => "• " + m.username).join("<br>")
+            : "Chưa có dữ liệu";
 
     }catch(e){
         console.log(e);
         document.getElementById("text").innerHTML =
-            "❌ Không load được API";
+            "❌ Lỗi tải dữ liệu API";
     }
 }
 
 load();
-
 setInterval(load, 60000);
 
 </script>
