@@ -9,15 +9,15 @@ html,body{
     padding:0;
     background:transparent;
     overflow:hidden;
-    font-family:Arial;
 }
 
-#box{
+#members{
     display:inline-block;
     background:#1f1f1f;
     color:white;
-    padding:5px 9px;
+    padding:5px 10px;
     border-radius:8px;
+    font-family:Arial;
     font-size:15px;
     font-weight:bold;
     white-space:nowrap;
@@ -27,12 +27,12 @@ html,body{
 
 <body>
 
-<div id="box">Loading...</div>
+<div id="members">Loading...</div>
 
 <script>
-async function updateMembers(){
+async function loadMembers() {
 
-    try{
+    try {
 
         const response = await fetch(
             "https://api.chess.com/pub/club/blunder-master-vn"
@@ -40,105 +40,21 @@ async function updateMembers(){
 
         const data = await response.json();
 
-        const members = data.members_count;
+        document.getElementById("members").innerHTML =
+            "👥 " + data.members_count;
 
-        // ngày hôm nay
-        const today = new Date().toDateString();
+    } catch (e) {
 
-        // dữ liệu đã lưu
-        let savedDate = localStorage.getItem("bm_date");
-        let oldMembers = localStorage.getItem("bm_members");
-
-        // lần đầu
-        if(oldMembers === null){
-            localStorage.setItem("bm_members", members);
-            localStorage.setItem("bm_date", today);
-            oldMembers = members;
-        }
-
-        // qua ngày mới thì cập nhật số cũ
-        if(savedDate !== today){
-            localStorage.setItem("bm_members", members);
-            localStorage.setItem("bm_date", today);
-        }
-
-        oldMembers = Number(oldMembers);
-
-        const diff = members - oldMembers;
-
-        let change = "0";
-
-        if(diff > 0){
-            change = "+" + diff;
-        }
-        else if(diff < 0){
-            change = diff;
-        }
-
-        document.getElementById("box").innerHTML =
-            "👥 " + members +
-            " | 1 day: " + change;
-
-    }catch(err){
-
-        document.getElementById("box").innerHTML =
-            "Load error";
+        document.getElementById("members").innerHTML =
+            "Error";
 
     }
 }
 
-updateMembers();
+loadMembers();
 
-setInterval(updateMembers,15000);
+setInterval(loadMembers,15000);
 </script>
 
 </body>
-</html>    );
-
-    const d = await r.json();
-
-    const members = d.members_count;
-
-    // Lấy số hôm qua
-    let yesterday = localStorage.getItem("yesterday_members");
-    let lastDate = localStorage.getItem("saved_date");
-
-    // Ngày hiện tại
-    const today = new Date().toDateString();
-
-    // Nếu sang ngày mới thì lưu số cũ
-    if(lastDate !== today){
-
-        localStorage.setItem("yesterday_members", members);
-        localStorage.setItem("saved_date", today);
-
-        yesterday = members;
-    }
-
-    yesterday = Number(yesterday || members);
-
-    const diff = members - yesterday;
-
-    let text = "";
-
-    if(diff > 0){
-        text = `📈 +${diff}`;
-    }
-    else if(diff < 0){
-        text = `📉 ${diff}`;
-    }
-    else{
-        text = `➖ 0`;
-    }
-
-    document.getElementById("box").innerHTML =
-        `👥 ${members} | ${text}`;
-}
-
-load();
-
-setInterval(load,15000);
-</script>
-
-</body>
-</html></html>
+</html>
