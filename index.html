@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<body style="margin:0">
+
+<div id="members"
+style="
+background:#1f1f1f;
+color:white;
+padding:12px;
+font-size:22px;
+font-family:Arial;
+border-radius:12px;
+display:inline-block;
+">
+👥 Đang tải...
+</div>
+
+<script>
+async function load() {
+
+    const r = await fetch(
+        "https://api.chess.com/pub/club/blunder-master-vn"
+    );
+
+    const d = await r.json();
+
+    document.getElementById("members").innerHTML =
+        "👥 Thành viên: " + d.members_count;
+}
+
+load();
+
+setInterval(load,15000);
+</script>
+
+</body>
+</html>
