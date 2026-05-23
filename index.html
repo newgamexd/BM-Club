@@ -9,15 +9,15 @@ html,body{
     padding:0;
     background:transparent;
     overflow:hidden;
+    font-family:Arial;
 }
 
 #box{
     display:inline-block;
-    padding:6px 10px;
     background:#1f1f1f;
     color:white;
-    border-radius:10px;
-    font-family:Arial;
+    padding:5px 9px;
+    border-radius:8px;
     font-size:15px;
     font-weight:bold;
     white-space:nowrap;
@@ -27,14 +27,73 @@ html,body{
 
 <body>
 
-<div id="box">👥 Loading...</div>
+<div id="box">Loading...</div>
 
 <script>
-async function load() {
+async function updateMembers(){
 
-    const r = await fetch(
-        "https://api.chess.com/pub/club/blunder-master-vn"
-    );
+    try{
+
+        const response = await fetch(
+            "https://api.chess.com/pub/club/blunder-master-vn"
+        );
+
+        const data = await response.json();
+
+        const members = data.members_count;
+
+        // ngày hôm nay
+        const today = new Date().toDateString();
+
+        // dữ liệu đã lưu
+        let savedDate = localStorage.getItem("bm_date");
+        let oldMembers = localStorage.getItem("bm_members");
+
+        // lần đầu
+        if(oldMembers === null){
+            localStorage.setItem("bm_members", members);
+            localStorage.setItem("bm_date", today);
+            oldMembers = members;
+        }
+
+        // qua ngày mới thì cập nhật số cũ
+        if(savedDate !== today){
+            localStorage.setItem("bm_members", members);
+            localStorage.setItem("bm_date", today);
+        }
+
+        oldMembers = Number(oldMembers);
+
+        const diff = members - oldMembers;
+
+        let change = "0";
+
+        if(diff > 0){
+            change = "+" + diff;
+        }
+        else if(diff < 0){
+            change = diff;
+        }
+
+        document.getElementById("box").innerHTML =
+            "👥 " + members +
+            " | 1 day: " + change;
+
+    }catch(err){
+
+        document.getElementById("box").innerHTML =
+            "Load error";
+
+    }
+}
+
+updateMembers();
+
+setInterval(updateMembers,15000);
+</script>
+
+</body>
+</html>    );
 
     const d = await r.json();
 
