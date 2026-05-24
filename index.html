@@ -1,57 +1,7 @@
-<!DOCTYPE html>
-<html lang="vi">
-<head>
-<meta charset="UTF-8">
-<title>CLB Progress</title>
-
-<style>
-body{
-    font-family: Arial;
-    background:#111;
-    color:white;
-    padding:20px;
-}
-
-.progress-box{
-    width:100%;
-    height:22px;
-    background:#333;
-    border-radius:20px;
-    overflow:hidden;
-    margin:10px 0;
-}
-
-.bar{
-    height:100%;
-    width:0%;
-    background:linear-gradient(90deg,#00ffcc,#0066ff);
-    transition:0.4s;
-}
-
-#text{
-    margin-top:10px;
-}
-</style>
-</head>
-
-<body>
-
-<h2>📊 CLB Progress</h2>
-
-<div class="progress-box">
-    <div class="bar" id="bar"></div>
-</div>
-
-<div id="text">Đang tải...</div>
-
 <script>
 
 const GOAL = 500;
 const API = "https://api.chess.com/pub/club/blunder-master-vn/members";
-
-function percent(count){
-    return Math.max(0, Math.min(100, (count / GOAL) * 100));
-}
 
 async function load(){
 
@@ -59,19 +9,28 @@ async function load(){
         const res = await fetch(API);
         const data = await res.json();
 
-        // ✅ CHỈ DÙNG 1 NGUỒN DUY NHẤT (quan trọng)
-        const count = (data.all_time || []).length;
+        const list = data.all_time || [];
+        const count = list.length;
 
-        const p = percent(count);
+        // lưu snapshot ổn định
+        localStorage.setItem("club_count", count);
 
-        document.getElementById("bar").style.width = p + "%";
         document.getElementById("text").innerHTML =
-            `👥 ${count} / ${GOAL} thành viên • ${p.toFixed(1)}%`;
+            `👥 ${count} / ${GOAL}`;
+
+        document.getElementById("bar").style.width =
+            Math.min(100, (count/GOAL)*100) + "%";
 
     }catch(e){
-        console.log(e);
+
+        // nếu API lỗi → dùng dữ liệu đã lưu
+        const cached = localStorage.getItem("club_count") || 0;
+
         document.getElementById("text").innerHTML =
-            "❌ Lỗi tải dữ liệu API";
+            `👥 ${cached} / ${GOAL} (cache)`;
+
+        document.getElementById("bar").style.width =
+            Math.min(100, (cached/GOAL)*100) + "%";
     }
 }
 
@@ -79,6 +38,3 @@ load();
 setInterval(load, 60000);
 
 </script>
-
-</body>
-</html>
