@@ -1,40 +1,83 @@
-<script>
-
-const GOAL = 500;
-const API = "https://api.chess.com/pub/club/blunder-master-vn/members";
-
-async function load(){
-
-    try{
-        const res = await fetch(API);
-        const data = await res.json();
-
-        const list = data.all_time || [];
-        const count = list.length;
-
-        // lưu snapshot ổn định
-        localStorage.setItem("club_count", count);
-
-        document.getElementById("text").innerHTML =
-            `👥 ${count} / ${GOAL}`;
-
-        document.getElementById("bar").style.width =
-            Math.min(100, (count/GOAL)*100) + "%";
-
-    }catch(e){
-
-        // nếu API lỗi → dùng dữ liệu đã lưu
-        const cached = localStorage.getItem("club_count") || 0;
-
-        document.getElementById("text").innerHTML =
-            `👥 ${cached} / ${GOAL} (cache)`;
-
-        document.getElementById("bar").style.width =
-            Math.min(100, (cached/GOAL)*100) + "%";
-    }
+body{
+margin:0;
+background:transparent;
+overflow:hidden;
 }
 
-load();
-setInterval(load, 60000);
+.vortex-container{
+width:202px;
+font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Helvetica,Arial,sans-serif;
+}
 
-</script>
+.vortex-card{
+width:202px;
+height:75px;
+box-sizing:border-box;
+padding:12px;
+border-radius:18px;
+background:linear-gradient(135deg,#220000,#420000);
+border:1px solid rgba(255,80,80,.5);
+box-shadow:
+0 0 10px rgba(255,0,0,.25),
+inset 0 0 15px rgba(255,80,80,.08);
+color:#fff;
+}
+
+.flex-row{
+display:flex;
+justify-content:space-between;
+align-items:center;
+font-size:14px;
+}
+
+.spacer{
+height:10px;
+}
+
+.progress-track{
+position:relative;
+height:12px;
+border-radius:999px;
+overflow:hidden;
+background:rgba(255,255,255,.08);
+border:1px solid rgba(255,100,100,.3);
+margin-bottom:8px;
+}
+
+.progress-fill{
+position:absolute;
+left:0;
+top:0;
+bottom:0;
+width:0%;
+border-radius:999px;
+background:linear-gradient(
+90deg,
+#ff2d55,
+#ff4d4d,
+#ff8c42
+);
+box-shadow:
+0 0 10px rgba(255,60,60,.8),
+0 0 20px rgba(255,60,60,.4);
+transition:width 1.5s cubic-bezier(.22,1,.36,1);
+}
+
+.progress-fill::after{
+content:"";
+position:absolute;
+top:0;
+right:0;
+width:25px;
+height:100%;
+background:rgba(255,255,255,.35);
+filter:blur(4px);
+}
+
+.blue-text{
+color:#ff6b6b;
+}
+
+.green-text{
+color:#ffb347;
+}
