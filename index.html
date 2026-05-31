@@ -85,12 +85,11 @@
                 <div id="progress-bar" class="progress-fill"></div>
                 <div class="target-dot"></div>
             </div>
-
-            <div class="flex-row">
-                <strong class="blue-text">0</strong>
-                <strong class="green-text">500</strong>
-            </div>
-        </div>
+<div class="flex-row">
+    <strong class="blue-text">0</strong>
+    <strong id="percent" style="color:#ffffff">0%</strong>
+    <strong class="green-text">500</strong>
+</div>
     </div>
 
     <script>
@@ -124,6 +123,8 @@
 
                 // 3. Update the bar width (triggers the CSS transition)
                 progressBarEl.style.width = percentage + '%';
+                document.getElementById("percent").innerText =
+    percentage.toFixed(1) + "%";
 
             } catch (error) {
                 console.error("Failed to load member count:", error);
