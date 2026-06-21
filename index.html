@@ -1,138 +1,208 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <style>
-        body {
-            margin: 0;
-            background: transparent;
-            overflow: hidden;
-        }
+<style>
+body{
+    margin:0;
+    background:transparent;
+    overflow:hidden;
+}
 
-        .vortex-container {
-            box-sizing: border-box;
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
-            color: #ffffff;
-            width: 202px;
-            max-width: 300px;
-        }
+.vortex-container{
+    box-sizing:border-box;
+    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
+    color:#fff;
+    width:202px;
+}
 
-        .vortex-card {
-            width: 202px;
-            height: 75px;
-            background: linear-gradient(180deg,#2b0000,#120000);
-            color: #ffffff;
-            border-radius: 18px;
-            padding: 12px;
-            border: 1px solid rgba(255,70,70,.35);
-            border-top: 2px solid rgba(255,90,90,.8);
-            box-shadow: 0 0 12px rgba(255,0,0,.15);
-        }
+.vortex-card{
+    width:202px;
+    height:150px;
+    background:linear-gradient(180deg,#2b0000,#120000);
+    color:#fff;
+    border-radius:18px;
+    padding:12px;
+    border:1px solid rgba(255,70,70,.35);
+    border-top:2px solid rgba(255,90,90,.8);
+    box-shadow:0 0 12px rgba(255,0,0,.15);
+}
 
-        .flex-row {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-            font-family: "Helvetica", Arial, sans-serif;
-            font-size: 16px;
-        }
+.flex-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    width:100%;
+    font-size:16px;
+}
 
-        .spacer {
-            height: 12px;
-        }
+.spacer{
+    height:12px;
+}
 
-        .progress-track {
-            position: relative;
-            height: 14px;
-            border-radius: 999px;
-            background: rgba(255, 255, 255, 0.1);
-            overflow: hidden;
-            border: 1px solid rgba(54, 160, 235, 0.3);
-            margin-bottom: 8px;
-        }
+.progress-track{
+    position:relative;
+    height:14px;
+    border-radius:999px;
+    background:rgba(255,255,255,.1);
+    overflow:hidden;
+    border:1px solid rgba(255,70,70,.3);
+    margin-bottom:8px;
+}
 
-        .progress-fill {
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 0%;
-            border-radius: 999px;
-            background: linear-gradient(90deg,#ff2b2b,#ff5e00);
-            box-shadow: 0 0 12px rgba(255,60,60,.6);
-            transition: width 1.5s cubic-bezier(0.4,0,0.2,1);
-        }
+.progress-fill{
+    position:absolute;
+    left:0;
+    top:0;
+    bottom:0;
+    width:0%;
+    border-radius:999px;
+    background:linear-gradient(90deg,#ff2b2b,#ff5e00);
+    box-shadow:0 0 12px rgba(255,60,60,.6);
+    transition:width 1.5s cubic-bezier(.4,0,.2,1);
+}
 
-        .blue-text { color: #ff6666; }
-        .green-text { color: #ffb347; }
-    </style>
+.blue-text{
+    color:#ff6666;
+}
+
+.green-text{
+    color:#ffb347;
+}
+
+/* 🔥 STATS 14PX - GIỮ NGUYÊN TEXT DÀI */
+.stats-line{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-size:14px;
+    margin-top:8px;
+    white-space:nowrap;   /* không xuống dòng */
+    line-height:1.2;
+}
+
+.stats-line span{
+    font-size:14px;
+    white-space:nowrap;
+}
+
+.stats-line strong{
+    font-size:14px;
+    white-space:nowrap;
+}
+</style>
 </head>
+
 <body>
 
 <div class="vortex-container">
-    <div class="vortex-card">
-        <div class="flex-row">
-            <strong>Thành Viên</strong>
-            <span>
-                <strong class="blue-text" id="current-count">...</strong>
-                <strong> / </strong>
-                <strong class="green-text">1000</strong>
-            </span>
-        </div>
+<div class="vortex-card">
 
-        <div class="spacer"></div>
+<div class="flex-row">
+    <strong>Thành Viên</strong>
+    <span>
+        <strong class="blue-text" id="current-count">...</strong>
+        <strong> / </strong>
+        <strong class="green-text">1000</strong>
+    </span>
+</div>
 
-        <div class="progress-track">
-            <div id="progress-bar" class="progress-fill"></div>
-        </div>
+<div class="spacer"></div>
 
-        <div class="flex-row">
-            <strong class="blue-text">0</strong>
-            <strong id="percent" style="color:#ffffff">0%</strong>
-            <strong class="green-text">1000</strong>
-        </div>
-    </div>
+<div class="progress-track">
+    <div id="progress-bar" class="progress-fill"></div>
+</div>
 
-    <script>
-        async function updateVortexProgress() {
-            const clubSlug = 'blunder-master-vn';
-            const goal = 1000;
+<div class="flex-row" style="font-size:13px;">
+    <strong class="blue-text">0</strong>
+    <strong id="percent">0%</strong>
+    <strong class="green-text">1000</strong>
+</div>
 
-            const currentCountEl = document.getElementById('current-count');
-            const progressBarEl = document.getElementById('progress-bar');
+<!-- GIỮ NGUYÊN TEXT DÀI -->
+<div class="stats-line">
+    <span class="green-text">Số Thành Viên Sau 24 Giờ:</span>
+    <strong class="blue-text" id="growth-24h">+0</strong>
+</div>
 
-            try {
-                const response = await fetch(`https://api.chess.com/pub/club/${clubSlug}`, {
-                    headers: {
-                        'User-Agent': 'VortexProgressBot/1.0'
-                    }
-                });
+<div class="stats-line">
+    <span class="green-text">Số Thành Viên Sau 7 Ngày:</span>
+    <strong class="blue-text" id="growth-7d">+0</strong>
+</div>
 
-                if (!response.ok) throw new Error('API Error');
+</div>
+</div>
 
-                const data = await response.json();
-                const count = data.members_count;
+<script>
+async function updateVortexProgress() {
 
-                currentCountEl.innerText = count.toLocaleString();
+    const goal = 1000;
 
-                let percentage = (count / goal) * 100;
+    try {
 
-                if (percentage > 100) percentage = 100;
-                if (percentage < 0) percentage = 0;
+        const club = await fetch(
+            "https://api.chess.com/pub/club/blunder-master-vn"
+        ).then(r => r.json());
 
-                progressBarEl.style.width = percentage + '%';
+        const membersData = await fetch(
+            "https://api.chess.com/pub/club/blunder-master-vn/members"
+        ).then(r => r.json());
 
-                document.getElementById("percent").innerText =
-                    percentage.toFixed(1) + "%";
+        const current = club.members_count || 0;
 
-            } catch (error) {
-                console.error("Failed to load member count:", error);
-                currentCountEl.innerText = "Error";
-            }
-        }
+        const percent = Math.min(
+            (current / goal) * 100,
+            100
+        );
 
-        updateVortexProgress();
-    </script>
+        document.getElementById("current-count").textContent = current;
+        document.getElementById("percent").textContent =
+            percent.toFixed(1) + "%";
+
+        document.getElementById("progress-bar").style.width =
+            percent + "%";
+
+        const allMembers = [
+            ...(membersData.weekly || []),
+            ...(membersData.monthly || []),
+            ...(membersData.all_time || [])
+        ];
+
+        const unique = {};
+
+        allMembers.forEach(m => {
+            unique[m.username] = m;
+        });
+
+        const members = Object.values(unique);
+
+        const now = Math.floor(Date.now()/1000);
+
+        const growth24h = members.filter(
+            m => now - m.joined <= 86400
+        ).length;
+
+        const growth7d = members.filter(
+            m => now - m.joined <= 604800
+        ).length;
+
+        document.getElementById("growth-24h").textContent =
+            "+" + growth24h;
+
+        document.getElementById("growth-7d").textContent =
+            "+" + growth7d;
+
+    } catch(e) {
+
+        document.getElementById("current-count").textContent = "?";
+        document.getElementById("growth-24h").textContent = "?";
+        document.getElementById("growth-7d").textContent = "?";
+
+    }
+}
+
+updateVortexProgress();
+setInterval(updateVortexProgress, 300000);
+</script>
 
 </body>
 </html>
