@@ -2,92 +2,88 @@
 <html>
 <head>
 <style>
-body{
-    margin:0;
-    background:transparent;
-    overflow:hidden;
+body {
+    margin: 0;
+    background: transparent;
+    overflow: hidden;
 }
 
-.vortex-container{
-    box-sizing:border-box;
-    font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Helvetica,Arial,sans-serif;
-    color:#fff;
-    width:202px;
+.vortex-container {
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    color: #fff;
+    width: 202px;
 }
 
-.vortex-card{
-    width:202px;
-    height:150px;
-    background:linear-gradient(180deg,#2b0000,#120000);
-    color:#fff;
-    border-radius:18px;
-    padding:12px;
-    border:1px solid rgba(255,70,70,.35);
-    border-top:2px solid rgba(255,90,90,.8);
-    box-shadow:0 0 12px rgba(255,0,0,.15);
+.vortex-card {
+    width: 202px;
+    height: 178px;
+    box-sizing: border-box;
+    background: linear-gradient(180deg, #2b0000, #120000);
+    color: #fff;
+    border-radius: 18px;
+    padding: 12px;
+    border: 1px solid rgba(255, 70, 70, .35);
+    border-top: 2px solid rgba(255, 90, 90, .8);
+    box-shadow: 0 0 12px rgba(255, 0, 0, .15);
 }
 
-.flex-row{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    width:100%;
-    font-size:16px;
+.flex-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    font-size: 16px;
 }
 
-.spacer{
-    height:12px;
+.spacer {
+    height: 12px;
 }
 
-.progress-track{
-    position:relative;
-    height:14px;
-    border-radius:999px;
-    background:rgba(255,255,255,.1);
-    overflow:hidden;
-    border:1px solid rgba(255,70,70,.3);
-    margin-bottom:8px;
+.progress-track {
+    position: relative;
+    height: 14px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, .1);
+    overflow: hidden;
+    border: 1px solid rgba(255, 70, 70, .3);
+    margin-bottom: 8px;
 }
 
-.progress-fill{
-    position:absolute;
-    left:0;
-    top:0;
-    bottom:0;
-    width:0%;
-    border-radius:999px;
-    background:linear-gradient(90deg,#ff2b2b,#ff5e00);
-    box-shadow:0 0 12px rgba(255,60,60,.6);
-    transition:width 1.5s cubic-bezier(.4,0,.2,1);
+.progress-fill {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 0%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #ff2b2b, #ff5e00);
+    box-shadow: 0 0 12px rgba(255, 60, 60, .6);
+    transition: width 1.5s cubic-bezier(.4, 0, .2, 1);
 }
 
-.blue-text{
-    color:#ff6666;
+.blue-text {
+    color: #ff6666;
 }
 
-.green-text{
-    color:#ffb347;
+.green-text {
+    color: #ffb347;
 }
 
-/* 🔥 STATS 14PX - GIỮ NGUYÊN TEXT DÀI */
-.stats-line{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    font-size:14px;
-    margin-top:8px;
-    white-space:nowrap;   /* không xuống dòng */
-    line-height:1.2;
+.stats-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 14px;
+    margin-top: 8px;
+    white-space: nowrap;
+    line-height: 1.2;
 }
 
-.stats-line span{
-    font-size:14px;
-    white-space:nowrap;
-}
-
-.stats-line strong{
-    font-size:14px;
-    white-space:nowrap;
+.stats-line span,
+.stats-line strong {
+    font-size: 14px;
+    white-space: nowrap;
 }
 </style>
 </head>
@@ -95,113 +91,249 @@ body{
 <body>
 
 <div class="vortex-container">
-<div class="vortex-card">
 
-<div class="flex-row">
-    <strong>Thành Viên</strong>
-    <span>
-        <strong class="blue-text" id="current-count">...</strong>
-        <strong> / </strong>
-        <strong class="green-text">1500</strong>
-    </span>
+    <div class="vortex-card">
+
+        <div class="flex-row">
+            <strong>Thành Viên</strong>
+
+            <span>
+                <strong class="blue-text" id="current-count">...</strong>
+                <strong> / </strong>
+                <strong class="green-text">1500</strong>
+            </span>
+        </div>
+
+        <div class="spacer"></div>
+
+        <div class="progress-track">
+            <div id="progress-bar" class="progress-fill"></div>
+        </div>
+
+        <div class="flex-row" style="font-size:13px;">
+            <strong class="blue-text">0</strong>
+            <strong id="percent">0%</strong>
+            <strong class="green-text">1500</strong>
+        </div>
+
+        <div class="stats-line">
+            <span class="green-text">
+                Còn Để Đạt Mục Tiêu:
+            </span>
+
+            <strong class="blue-text" id="remaining-members">
+                0
+            </strong>
+        </div>
+
+        <div class="stats-line">
+            <span class="green-text">
+                Số Thành Viên Sau 24 Giờ:
+            </span>
+
+            <strong class="blue-text" id="growth-24h">
+                +0
+            </strong>
+        </div>
+
+        <div class="stats-line">
+            <span class="green-text">
+                Số Thành Viên Sau 7 Ngày:
+            </span>
+
+            <strong class="blue-text" id="growth-7d">
+                +0
+            </strong>
+        </div>
+
+    </div>
+
 </div>
 
-<div class="spacer"></div>
-
-<div class="progress-track">
-    <div id="progress-bar" class="progress-fill"></div>
-</div>
-
-<div class="flex-row" style="font-size:13px;">
-    <strong class="blue-text">0</strong>
-    <strong id="percent">0%</strong>
-    <strong class="green-text">1500</strong>
-</div>
-
-<!-- GIỮ NGUYÊN TEXT DÀI -->
-<div class="stats-line">
-    <span class="green-text">Số Thành Viên Sau 24 Giờ:</span>
-    <strong class="blue-text" id="growth-24h">+0</strong>
-</div>
-
-<div class="stats-line">
-    <span class="green-text">Số Thành Viên Sau 7 Ngày:</span>
-    <strong class="blue-text" id="growth-7d">+0</strong>
-</div>
-
-</div>
-</div>
 
 <script>
+
 async function updateVortexProgress() {
 
+    const clubSlug = "blunder-master-vn";
+
+    /* MỤC TIÊU */
     const goal = 1500;
+
+
+    const currentCountEl =
+        document.getElementById("current-count");
+
+    const progressBarEl =
+        document.getElementById("progress-bar");
+
+    const percentEl =
+        document.getElementById("percent");
+
+    const remainingEl =
+        document.getElementById("remaining-members");
+
+    const growth24hEl =
+        document.getElementById("growth-24h");
+
+    const growth7dEl =
+        document.getElementById("growth-7d");
+
 
     try {
 
-        const club = await fetch(
-            "https://api.chess.com/pub/club/blunder-master-vn"
-        ).then(r => r.json());
-
-        const membersData = await fetch(
-            "https://api.chess.com/pub/club/blunder-master-vn/members"
-        ).then(r => r.json());
-
-        const current = club.members_count || 0;
-
-        const percent = Math.min(
-            (current / goal) * 100,
-            100
+        const clubResponse = await fetch(
+            `https://api.chess.com/pub/club/${clubSlug}`
         );
 
-        document.getElementById("current-count").textContent = current;
-        document.getElementById("percent").textContent =
-            percent.toFixed(1) + "%";
+        if (!clubResponse.ok) {
+            throw new Error("Không thể tải thông tin CLB");
+        }
 
-        document.getElementById("progress-bar").style.width =
-            percent + "%";
+        const clubData =
+            await clubResponse.json();
+
+
+        const membersResponse = await fetch(
+            `https://api.chess.com/pub/club/${clubSlug}/members`
+        );
+
+        if (!membersResponse.ok) {
+            throw new Error("Không thể tải danh sách thành viên");
+        }
+
+        const membersData =
+            await membersResponse.json();
+
+
+        /* SỐ THÀNH VIÊN HIỆN TẠI */
+
+        const count =
+            clubData.members_count || 0;
+
+        currentCountEl.textContent =
+            count.toLocaleString();
+
+
+        /* SỐ THÀNH VIÊN CÒN THIẾU */
+
+        const remaining =
+            Math.max(goal - count, 0);
+
+        remainingEl.textContent =
+            remaining.toLocaleString();
+
+
+        /* THANH TIẾN TRÌNH */
+
+        let percentage =
+            (count / goal) * 100;
+
+        percentage =
+            Math.max(
+                0,
+                Math.min(percentage, 100)
+            );
+
+        progressBarEl.style.width =
+            percentage + "%";
+
+        percentEl.textContent =
+            percentage.toFixed(1) + "%";
+
+
+        /* GỘP THÀNH VIÊN */
+
+        const uniqueMembers = {};
 
         const allMembers = [
+
             ...(membersData.weekly || []),
+
             ...(membersData.monthly || []),
+
             ...(membersData.all_time || [])
+
         ];
 
-        const unique = {};
 
-        allMembers.forEach(m => {
-            unique[m.username] = m;
+        allMembers.forEach(member => {
+
+            uniqueMembers[member.username] =
+                member;
+
         });
 
-        const members = Object.values(unique);
 
-        const now = Math.floor(Date.now()/1500);
+        const members =
+            Object.values(uniqueMembers);
 
-        const growth24h = members.filter(
-            m => now - m.joined <= 86400
-        ).length;
 
-        const growth7d = members.filter(
-            m => now - m.joined <= 604800
-        ).length;
+        /* THỜI GIAN HIỆN TẠI */
 
-        document.getElementById("growth-24h").textContent =
+        const now =
+            Math.floor(Date.now() / 1000);
+
+
+        /* TĂNG TRONG 24 GIỜ */
+
+        const growth24h =
+            members.filter(member =>
+                member.joined &&
+                now - member.joined <= 86400
+            ).length;
+
+
+        /* TĂNG TRONG 7 NGÀY */
+
+        const growth7d =
+            members.filter(member =>
+                member.joined &&
+                now - member.joined <= 604800
+            ).length;
+
+
+        growth24hEl.textContent =
             "+" + growth24h;
 
-        document.getElementById("growth-7d").textContent =
+        growth7dEl.textContent =
             "+" + growth7d;
 
-    } catch(e) {
 
-        document.getElementById("current-count").textContent = "?";
-        document.getElementById("growth-24h").textContent = "?";
-        document.getElementById("growth-7d").textContent = "?";
+    } catch (error) {
+
+        console.error(
+            "Failed to load club data:",
+            error
+        );
+
+        currentCountEl.textContent = "?";
+
+        percentEl.textContent = "?";
+
+        remainingEl.textContent = "?";
+
+        growth24hEl.textContent = "?";
+
+        growth7dEl.textContent = "?";
 
     }
+
 }
 
+
+/* CẬP NHẬT NGAY */
+
 updateVortexProgress();
-setInterval(updateVortexProgress, 300000);
+
+
+/* CẬP NHẬT MỖI 5 PHÚT */
+
+setInterval(
+    updateVortexProgress,
+    300000
+);
+
 </script>
 
 </body>
