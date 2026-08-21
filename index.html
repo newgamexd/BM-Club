@@ -102,7 +102,7 @@ body{
     <span>
         <strong class="blue-text" id="current-count">...</strong>
         <strong> / </strong>
-        <strong class="green-text">1000</strong>
+        <strong class="green-text">1500</strong>
     </span>
 </div>
 
@@ -115,7 +115,7 @@ body{
 <div class="flex-row" style="font-size:13px;">
     <strong class="blue-text">0</strong>
     <strong id="percent">0%</strong>
-    <strong class="green-text">1000</strong>
+    <strong class="green-text">1500</strong>
 </div>
 
 <!-- GIỮ NGUYÊN TEXT DÀI -->
@@ -135,7 +135,7 @@ body{
 <script>
 async function updateVortexProgress() {
 
-    const goal = 1000;
+    const goal = 1500;
 
     try {
 
@@ -175,7 +175,7 @@ async function updateVortexProgress() {
 
         const members = Object.values(unique);
 
-        const now = Math.floor(Date.now()/1000);
+        const now = Math.floor(Date.now()/1500);
 
         const growth24h = members.filter(
             m => now - m.joined <= 86400
